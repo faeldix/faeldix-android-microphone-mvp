@@ -2,9 +2,9 @@
 
 Aplicativo desenvolvido afim de estudar a API de Gravação/Reprodução do Android
 
-Arquitetura: MVP__
-Test: mockito + junit__
+Arquitetura: MVP
+
+Testest: mockito + junit
 
 Tecnologias:
-
 * ButterKnife
