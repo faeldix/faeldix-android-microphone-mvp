@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">Record</string>
+
+    <string name="record_status_message">MANTENHA PRESSIONADO PARA CONTINUAR GRAVANDO</string>
+    <string name="default_status_message">SEGURE O BOTAO GRAVAR PARA INICAR UM GRAVAÇÃO</string>
+</resources>
