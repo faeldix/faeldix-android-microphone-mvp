@@ -4,7 +4,9 @@ Aplicativo desenvolvido afim de estudar a API de Gravação/Reprodução do Andr
 
 Arquitetura: MVP
 
-Testest: mockito + junit
+Testes:
+* Mockito
+* Roboletric
 
 Tecnologias:
 * ButterKnife
