@@ -2,10 +2,9 @@ package rfreitas.com.br.record.record;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import rfreitas.com.br.record.record.RecordPresenter;
-import rfreitas.com.br.record.record.RecordView;
+import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -16,14 +15,28 @@ import static org.mockito.Mockito.verify;
 
 public class RecordPresenterTest {
 
-    private RecordPresenter presenter;
-    private RecordPresenter.RecordPresenterListener mock;
+    @Mock
+    private RecordPresenter.RecordPresenterListener listener;
+
+    @Mock
     private RecordView view;
+
+    private RecordPresenter presenter;
+
+    @Before
+    public void init(){
+        MockitoAnnotations.initMocks(this);
+
+        presenter = new RecordPresenter();
+
+        presenter.setRecordPresenterListener(listener);
+        presenter.setView(view);
+    }
 
     @Test(expected = IllegalStateException.class)
     public void recordPresenterMustHasAView(){
         RecordPresenter presenter = new RecordPresenter();
-        presenter.setRecordPresenterListener(Mockito.mock(RecordPresenter.RecordPresenterListener.class));
+        presenter.setRecordPresenterListener(listener);
 
         presenter.startRecord("", "");
     }
@@ -31,32 +44,21 @@ public class RecordPresenterTest {
     @Test(expected = IllegalStateException.class)
     public void recordPresenterMustHasARecordPresenterListener(){
         RecordPresenter presenter = new RecordPresenter();
-        presenter.setView(Mockito.mock(RecordView.class));
+        presenter.setView(view);
 
         presenter.startRecord("", "");
-    }
-
-    @Before
-    public void init(){
-        presenter = new RecordPresenter();
-
-        mock = Mockito.mock(RecordPresenter.RecordPresenterListener.class);
-        view = Mockito.mock(RecordView.class);
-
-        presenter.setRecordPresenterListener(mock);
-        presenter.setView(view);
     }
 
     @Test
     public void whenStartARecordOnPresenterTheListenerWithMethodonInitRecordMustBeCalled(){
         presenter.getRecordServiceListener().onStartRecord();
-        verify(mock).onInitRecord();
+        verify(listener).onInitRecord();
     }
 
     @Test
     public void whenStopARecordOnPresenterTheListenerWithMethodOnStopRecordMustBeCalled(){
         presenter.getRecordServiceListener().onStop();
-        verify(mock).onStopRecord();
+        verify(listener).onStopRecord();
     }
 
     @Test

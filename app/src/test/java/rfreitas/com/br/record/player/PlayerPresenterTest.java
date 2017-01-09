@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import rfreitas.com.br.record.record.Record;
 
@@ -17,20 +18,23 @@ import static org.junit.Assert.*;
  */
 public class PlayerPresenterTest {
 
+    @Mock
     private MediaPlayer player;
 
+    @Mock
     private PlayerView view;
+
+    @Mock
     private Context context;
+
+    @Mock
     private PlayerService service;
 
     private PlayerPresenter presenter;
 
     @Before
     public void init(){
-        view = Mockito.mock(PlayerView.class);
-        player = Mockito.mock(MediaPlayer.class);
-        service = Mockito.mock(PlayerService.class);
-        context = Mockito.mock(Context.class);
+        MockitoAnnotations.initMocks(this);
 
         presenter = new PlayerPresenter(context);
         presenter.setService(service);

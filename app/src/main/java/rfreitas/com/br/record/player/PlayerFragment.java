@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +25,6 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.blurry.Blurry;
 import rfreitas.com.br.record.R;
 import rfreitas.com.br.record.record.Record;
 
@@ -42,6 +42,8 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
 
     @BindView(R.id.time)
     TextView time;
+
+    private Toast toastError, toastStop;
 
     private RecordsAdapter adapter;
     private PlayerPresenter presenter;
@@ -67,11 +69,21 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        presenter = new PlayerPresenter(getActivity());
+        PlayerPresenter presenter = new PlayerPresenter(getActivity());
         presenter.setView(this);
+
+        setPresenter(presenter);
 
         adapter = new RecordsAdapter(getActivity(), this);
         recycler.setAdapter(adapter);
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public void setPresenter(PlayerPresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -90,7 +102,7 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
 
     @Override
     public void showProgressOfPlayer() {
-        timer = new Timer();
+        timer = getNewTimer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -114,16 +126,22 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
 
     @Override
     public void stopProgressOfPlayer() {
-        Toast.makeText(getActivity(), "Reprodução finalizada", Toast.LENGTH_SHORT).show();
+        if(toastStop == null || toastStop.getView().isShown()){
+            toastStop = Toast.makeText(getActivity(), "Reprodução finalizada", Toast.LENGTH_SHORT);
+            toastStop.show();
 
-        reload();
+            reload();
+        }
     }
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+        if(toastError == null || toastError.getView().isShown()){
+            toastError = Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT);
+            toastError.show();
 
-        reload();
+            reload();
+        }
     }
 
     @Override
@@ -178,4 +196,19 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
         };
     }
 
+    public Timer getNewTimer(){
+        return new Timer();
+    }
+
+    public Toast getToastError() {
+        return toastError;
+    }
+
+    public Toast getToastStop() {
+        return toastStop;
+    }
+
+    public RecordsAdapter getAdapter() {
+        return adapter;
+    }
 }

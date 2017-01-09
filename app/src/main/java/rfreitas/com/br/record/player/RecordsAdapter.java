@@ -22,13 +22,12 @@ import rfreitas.com.br.record.record.Record;
 
 public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> {
 
-    private Context context;
-    private List<Record> records;
-
     private RecordAdapterListener listener;
+    private List<Record> records;
+    private Context context;
 
-    private int selected = -1;
     private ColorStateList defaultColorValues;
+    private int selected = -1;
 
     public RecordsAdapter(Context context, RecordAdapterListener listener) {
         this.context = context;
@@ -37,6 +36,10 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
 
     public void addItens(List<Record> records){
         this.records = records;
+    }
+
+    public void setListener(RecordAdapterListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -53,12 +56,11 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
     public void onBindViewHolder(final Holder holder, final int position) {
         final Record record = records.get(position);
 
-        holder.v1.setText(record.getFilename());
-        holder.v1.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                holder.row.setSelected(true);
+                holder.itemView.setSelected(true);
                 holder.v1.setTextColor(Color.WHITE);
 
                 if(selected != -1){
@@ -71,8 +73,13 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
 
         });
 
-        holder.row.setSelected(false);
-        holder.v1.setTextColor(defaultColorValues);
+        holder.v1.setText(record.getFilename());
+
+        if(selected == position){
+            holder.itemView.setSelected(false);
+            holder.v1.setTextColor(defaultColorValues);
+        }
+
     }
 
     @Override
@@ -89,12 +96,9 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
         @BindView(android.R.id.text1)
         TextView v1;
 
-        View row;
-
         public Holder(View itemView) {
             super(itemView);
 
-            row = itemView;
             ButterKnife.bind(this, itemView);
         }
 

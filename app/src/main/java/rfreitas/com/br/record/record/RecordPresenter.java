@@ -20,6 +20,7 @@ public class RecordPresenter {
 
     public void setRecordPresenterListener(RecordPresenterListener listener){
         this.listener = listener;
+        this.service = new RecordService();
     }
 
     public void setRecordService(RecordService service){
@@ -37,7 +38,7 @@ public class RecordPresenter {
         service.setMediaRecord(new MediaRecorder());
         service.setRecordServiceListener(getRecordServiceListener());
 
-        Record record = new Record(path, filename, 10 * 1000);
+        Record record = new Record(path, filename, 60 * 1000);
         service.record(record);
     }
 
@@ -56,19 +57,17 @@ public class RecordPresenter {
             @Override
             public void onStop() {
                 listener.onStopRecord();
-                view.reload();
+
             }
 
             @Override
             public void onMaxTimeIsReached() {
                 view.showTimeIsReached();
-                view.reload();
             }
 
             @Override
             public void onError(String message) {
                 view.showError(message);
-                view.reload();
             }
 
         };
