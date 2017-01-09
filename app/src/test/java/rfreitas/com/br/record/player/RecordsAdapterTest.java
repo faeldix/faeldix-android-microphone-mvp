@@ -36,8 +36,6 @@ import static org.junit.Assert.*;
 
 public class RecordsAdapterTest {
 
-    private List<Record> records = Arrays.asList(new Record("/root", "item1", 0), new Record("/root", "item2", 0));
-
     @Mock
     private Context context;
 

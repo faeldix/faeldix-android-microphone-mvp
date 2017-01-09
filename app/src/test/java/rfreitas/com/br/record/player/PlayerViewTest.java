@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -35,23 +36,22 @@ import static org.mockito.Mockito.when;
 @Config(manifest = "src/main/AndroidManifest.xml", constants = BuildConfig.class)
 public class PlayerViewTest {
 
-    private PlayerFragment fragment;
-
     @Mock
     private PlayerPresenter presenter;
 
     @Mock
     private Timer timer;
 
-    @Mock MotionEvent event;
+    @Mock
+    private MotionEvent event;
+
+    @Spy
+    private PlayerFragment fragment;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
-        fragment = new PlayerFragment();
-
-        fragment = spy(fragment);
         when(fragment.getNewTimer()).thenReturn(timer);
 
         SupportFragmentTestUtil.startFragment(fragment);

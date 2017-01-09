@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -44,17 +45,17 @@ public class RecordViewTest {
     @Mock
     private Timer timer;
 
+    @Mock
+    private MotionEvent event;
+
+    @Spy
     private RecordFragment fragment;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
 
-        fragment = new RecordFragment();
-
-        fragment = spy(fragment);
         when(fragment.getNewTimer()).thenReturn(timer);
-
         SupportFragmentTestUtil.startFragment(fragment);
 
         fragment.setPresenter(presenter);
@@ -63,13 +64,9 @@ public class RecordViewTest {
 
     @Test
     public void whenClickOnRecordButtonThePresenterWithMethodStartRecordMustBeCalled(){
-        RecordPresenter presenter = mock(RecordPresenter.class);
-        Timer timer = mock(Timer.class);
-
         fragment.setPresenter(presenter);
         fragment.setTimer(timer);
 
-        MotionEvent event = mock(MotionEvent.class);
         when(event.getAction()).thenReturn(MotionEvent.ACTION_DOWN);
 
         fragment.getOnTouchListener().onTouch(fragment.gravar, event);
@@ -83,7 +80,6 @@ public class RecordViewTest {
 
     @Test
     public void whenClickOnRecordButtonIsReleasedThePresenterWithStopRecordMustBeCalled(){
-        MotionEvent event = mock(MotionEvent.class);
         when(event.getAction()).thenReturn(MotionEvent.ACTION_UP);
 
         fragment.getOnTouchListener().onTouch(fragment.gravar, event);

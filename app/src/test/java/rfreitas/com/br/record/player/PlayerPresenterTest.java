@@ -30,6 +30,9 @@ public class PlayerPresenterTest {
     @Mock
     private PlayerService service;
 
+    @Mock
+    private Record record;
+
     private PlayerPresenter presenter;
 
     @Before
@@ -43,7 +46,7 @@ public class PlayerPresenterTest {
 
     @Test
     public void whenPlayARecordThePlayMethodOfServiceMustBeCalled(){
-        presenter.play(Mockito.mock(Record.class));
+        presenter.play(record);
         Mockito.verify(service).play(Mockito.any(Record.class));
     }
 
