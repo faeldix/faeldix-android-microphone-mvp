@@ -99,7 +99,7 @@ public class RecordFragment extends Fragment implements RecordView {
                         tempo.setAnimation(getPulse());
                         presenter.startRecord(getActivity().getFilesDir().getPath(), UUID.randomUUID().toString());
 
-                        break;
+                        return true;
                     case MotionEvent.ACTION_UP:
 
                         status.setText(R.string.default_status_message);
@@ -108,10 +108,10 @@ public class RecordFragment extends Fragment implements RecordView {
                         tempo.clearAnimation();
                         presenter.stopRecord();
 
-                        break;
+                        return true;
                 }
 
-                return true;
+                return false;
             }
 
         };
@@ -162,9 +162,10 @@ public class RecordFragment extends Fragment implements RecordView {
         if(stopToast == null || stopToast.getView().isShown()){
             stopToast = Toast.makeText(getActivity(), "A gravação encerrou", Toast.LENGTH_SHORT);
             stopToast.show();
-
-            reload();
         }
+
+        reload();
+
     }
 
     @Override
@@ -172,9 +173,9 @@ public class RecordFragment extends Fragment implements RecordView {
         if(errorToast == null || errorToast.getView().isShown()){
             errorToast = Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT);
             errorToast.show();
-
-            reload();
         }
+
+        reload();
     }
 
     @Override
@@ -182,9 +183,9 @@ public class RecordFragment extends Fragment implements RecordView {
         if(timeIsReachedToast == null || timeIsReachedToast.getView().isShown()){
             timeIsReachedToast = Toast.makeText(getActivity(), "O tempo máximo de gravação encerrou.", Toast.LENGTH_SHORT);
             timeIsReachedToast.show();
-
-            reload();
         }
+
+        reload();
     }
 
     @Override

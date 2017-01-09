@@ -79,4 +79,24 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    public TabLayout.Tab getRecordTab() {
+        return recordTab;
+    }
+
+    public TabLayout.Tab getPlayerTab() {
+        return playerTab;
+    }
+
+    public Fragment getRecordFragment() {
+        return recordFragment;
+    }
+
+    public Fragment getPlayerFragment() {
+        return playerFragment;
+    }
+
 }

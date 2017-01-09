@@ -129,9 +129,9 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
         if(toastStop == null || toastStop.getView().isShown()){
             toastStop = Toast.makeText(getActivity(), "Reprodução finalizada", Toast.LENGTH_SHORT);
             toastStop.show();
-
-            reload();
         }
+
+        reload();
     }
 
     @Override
@@ -139,9 +139,9 @@ public class PlayerFragment extends Fragment implements PlayerView, RecordsAdapt
         if(toastError == null || toastError.getView().isShown()){
             toastError = Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT);
             toastError.show();
-
-            reload();
         }
+
+        reload();
     }
 
     @Override
