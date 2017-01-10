@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
     private List<Record> records;
     private Context context;
 
-    private ColorStateList defaultColorValues;
     private int selected = -1;
 
     public RecordsAdapter(Context context, RecordAdapterListener listener) {
@@ -47,8 +47,6 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
         View row = LayoutInflater.from(context).inflate(R.layout.row_layout, parent, false);
         Holder holder = new Holder(row);
 
-        defaultColorValues = holder.v1.getTextColors();
-
         return holder;
     }
 
@@ -60,26 +58,18 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
 
             @Override
             public void onClick(View view) {
-                holder.itemView.setSelected(true);
-                holder.v1.setTextColor(Color.WHITE);
-
                 if(selected != -1){
                     notifyItemChanged(selected);
                 }
 
-                selected = position;
                 listener.onSelectItemListener(position, record);
+                notifyItemChanged(selected = position);
             }
 
         });
 
         holder.v1.setText(record.getFilename());
-
-        if(selected == position){
-            holder.itemView.setSelected(false);
-            holder.v1.setTextColor(defaultColorValues);
-        }
-
+        holder.setSelected(selected == position);
     }
 
     @Override
@@ -96,10 +86,18 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.Holder> 
         @BindView(android.R.id.text1)
         TextView v1;
 
+        private int defaultTextColor;
+
         public Holder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+            defaultTextColor = v1.getCurrentTextColor();
+        }
+
+        public void setSelected(boolean selected){
+            itemView.setSelected(selected);
+            v1.setTextColor(selected ? Color.WHITE : defaultTextColor);
         }
 
     }
